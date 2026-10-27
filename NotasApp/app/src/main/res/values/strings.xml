@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name" translatable="false">NotasApp</string>
+
+    <!-- Login -->
+    <string name="login_title">Iniciar sesión</string>
+    <string name="login_subtitle">Ingresa tus credenciales para continuar</string>
+    <string name="hint_usuario">Usuario o correo electrónico</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_login">Iniciar sesión</string>
+    <string name="error_campos_vacios">Completa todos los campos</string>
+    <string name="error_credenciales">Usuario o contraseña incorrectos</string>
+    <string name="error_conexion">No se pudo conectar con el servidor. Intenta de nuevo</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_welcome">¡Hola, %1$s!</string>
+    <string name="dashboard_subtitle">¿Qué deseas hacer hoy?</string>
+    <string name="btn_crear_nota">Crear nota</string>
+    <string name="btn_ver_notas">Ver mis notas</string>
+    <string name="btn_cerrar_sesion">Cerrar sesión</string>
+
+    <!-- Crear nota -->
+    <string name="create_note_title">Nueva nota</string>
+    <string name="hint_titulo">Título</string>
+    <string name="hint_contenido">Contenido</string>
+    <string name="btn_guardar">Guardar nota</string>
+    <string name="msg_nota_guardada">Nota guardada correctamente</string>
+    <string name="error_nota_incompleta">El título y el contenido no pueden estar vacíos</string>
+    <string name="error_titulo_largo">El título no puede superar los 100 caracteres</string>
+
+    <!-- Listado de notas -->
+    <string name="notes_list_title">Mis notas</string>
+    <string name="empty_notes">Aún no tienes notas. ¡Crea la primera!</string>
+
+    <!-- Generales -->
+    <string name="loading">Cargando…</string>
+    <string name="error_generico">Ocurrió un error. Intenta de nuevo</string>
+    <string name="btn_volver">Volver</string>
+</resources>
