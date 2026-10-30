@@ -4,6 +4,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const db = require("../db");
 const { generarToken } = require("../utils/jwt");
+const { esEmailValido, esTextoNoVacio } = require("../utils/validators");
 
 const router = express.Router();
 
@@ -11,11 +12,15 @@ const router = express.Router();
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
+  if (!esTextoNoVacio(email) || !esTextoNoVacio(password)) {
     return res.status(400).json({ mensaje: "Email y contraseña son obligatorios" });
   }
+  if (!esEmailValido(email)) {
+    return res.status(400).json({ mensaje: "Formato de correo inválido" });
+  }
 
-  const usuario = db.prepare("SELECT * FROM usuarios WHERE email = ?").get(email);
+  const emailLimpio = email.trim().toLowerCase();
+  const usuario = db.prepare("SELECT * FROM usuarios WHERE email = ?").get(emailLimpio);
   if (!usuario || !bcrypt.compareSync(password, usuario.password_hash)) {
     return res.status(401).json({ mensaje: "Credenciales inválidas" });
   }
@@ -32,11 +37,18 @@ router.post("/login", (req, res) => {
 router.post("/register", (req, res) => {
   const { nombre, email, password } = req.body;
 
-  if (!nombre || !email || !password) {
+  if (!esTextoNoVacio(nombre, 100) || !esTextoNoVacio(email) || !esTextoNoVacio(password)) {
     return res.status(400).json({ mensaje: "Nombre, email y contraseña son obligatorios" });
   }
+  if (!esEmailValido(email)) {
+    return res.status(400).json({ mensaje: "Formato de correo inválido" });
+  }
+  if (password.length < 4) {
+    return res.status(400).json({ mensaje: "La contraseña debe tener al menos 4 caracteres" });
+  }
 
-  const existe = db.prepare("SELECT id FROM usuarios WHERE email = ?").get(email);
+  const emailLimpio = email.trim().toLowerCase();
+  const existe = db.prepare("SELECT id FROM usuarios WHERE email = ?").get(emailLimpio);
   if (existe) {
     return res.status(409).json({ mensaje: "Ya existe un usuario con ese email" });
   }
@@ -44,9 +56,9 @@ router.post("/register", (req, res) => {
   const passwordHash = bcrypt.hashSync(password, 10);
   const resultado = db
     .prepare("INSERT INTO usuarios (nombre, email, password_hash) VALUES (?, ?, ?)")
-    .run(nombre, email, passwordHash);
+    .run(nombre.trim(), emailLimpio, passwordHash);
 
-  const usuario = { id: resultado.lastInsertRowid, nombre, email };
+  const usuario = { id: resultado.lastInsertRowid, nombre: nombre.trim(), email: emailLimpio };
   const token = generarToken(usuario);
   res.status(201).json({ token, usuario });
 });

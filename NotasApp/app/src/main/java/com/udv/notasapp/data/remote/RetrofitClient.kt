@@ -9,13 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    // Backend local (NotasApi) corriendo en la misma PC.
-    // - Emulador de Android Studio: 10.0.2.2 apunta al localhost de la PC anfitriona.
-    // - Dispositivo físico en la misma red Wi-Fi: cambiar por la IP de la PC que imprime
-    //   NotasApi al arrancar (ej. "http://192.168.1.50:3000/").
-    private const val BASE_URL = "http://10.0.2.2:3000/"
-
-    fun create(sessionManager: SessionManager): ApiService {
+    fun create(sessionManager: SessionManager, baseUrl: String): ApiService {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
@@ -28,7 +22,7 @@ object RetrofitClient {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

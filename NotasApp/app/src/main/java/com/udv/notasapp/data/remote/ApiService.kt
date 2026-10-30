@@ -1,5 +1,6 @@
 package com.udv.notasapp.data.remote
 
+import com.udv.notasapp.data.remote.dto.HealthResponse
 import com.udv.notasapp.data.remote.dto.LoginRequest
 import com.udv.notasapp.data.remote.dto.LoginResponse
 import com.udv.notasapp.data.remote.dto.Nota
@@ -15,6 +16,10 @@ import retrofit2.http.POST
  * (carpeta hermana ../NotasApi). Ver NotasApi/README.md para correr el backend.
  */
 interface ApiService {
+
+    // Verifica que el backend esté arriba y respondiendo, antes de mostrar el login.
+    @GET("api/health")
+    suspend fun verificarConexion(): Response<HealthResponse>
 
     @POST("api/auth/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>

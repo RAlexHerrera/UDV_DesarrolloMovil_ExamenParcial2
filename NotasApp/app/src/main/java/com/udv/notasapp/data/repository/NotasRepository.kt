@@ -1,14 +1,16 @@
 package com.udv.notasapp.data.repository
 
 import com.udv.notasapp.data.local.SessionManager
-import com.udv.notasapp.data.remote.ApiService
+import com.udv.notasapp.data.remote.ApiServiceProvider
 import com.udv.notasapp.data.remote.dto.Nota
 import com.udv.notasapp.data.remote.dto.NotaRequest
 import com.udv.notasapp.util.Resource
+import com.udv.notasapp.util.mensajeDeErrorBackend
+import com.udv.notasapp.util.mensajeDeErrorRed
 import java.io.IOException
 
 class NotasRepository(
-    private val apiService: ApiService,
+    private val apiServiceProvider: ApiServiceProvider,
     private val sessionManager: SessionManager
 ) {
 
@@ -18,7 +20,7 @@ class NotasRepository(
 
     suspend fun crearNota(titulo: String, contenido: String): Resource<Nota> {
         return try {
-            val response = apiService.crearNota(NotaRequest(titulo, contenido))
+            val response = apiServiceProvider.apiService.crearNota(NotaRequest(titulo, contenido))
             val body = response.body()
 
             when {
@@ -27,10 +29,10 @@ class NotasRepository(
                     manejarSesionExpirada()
                     Resource.Error("Tu sesión expiró, inicia sesión de nuevo")
                 }
-                else -> Resource.Error("No se pudo guardar la nota (código ${response.code()})")
+                else -> Resource.Error(response.mensajeDeErrorBackend("No se pudo guardar la nota (código ${response.code()})"))
             }
         } catch (e: IOException) {
-            Resource.Error("No se pudo conectar con el servidor")
+            Resource.Error(mensajeDeErrorRed(e))
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Ocurrió un error inesperado")
         }
@@ -38,7 +40,7 @@ class NotasRepository(
 
     suspend fun obtenerNotas(): Resource<List<Nota>> {
         return try {
-            val response = apiService.obtenerNotas()
+            val response = apiServiceProvider.apiService.obtenerNotas()
 
             when {
                 response.isSuccessful -> Resource.Success(response.body() ?: emptyList())
@@ -46,10 +48,10 @@ class NotasRepository(
                     manejarSesionExpirada()
                     Resource.Error("Tu sesión expiró, inicia sesión de nuevo")
                 }
-                else -> Resource.Error("No se pudieron cargar las notas (código ${response.code()})")
+                else -> Resource.Error(response.mensajeDeErrorBackend("No se pudieron cargar las notas (código ${response.code()})"))
             }
         } catch (e: IOException) {
-            Resource.Error("No se pudo conectar con el servidor")
+            Resource.Error(mensajeDeErrorRed(e))
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Ocurrió un error inesperado")
         }

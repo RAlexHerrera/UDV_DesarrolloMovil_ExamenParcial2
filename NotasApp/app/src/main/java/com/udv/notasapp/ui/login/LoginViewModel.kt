@@ -18,8 +18,19 @@ class LoginViewModel(
     private val _loginState = MutableLiveData<Resource<Usuario>>()
     val loginState: LiveData<Resource<Usuario>> = _loginState
 
+    // Estado de la verificación de conexión al backend, previa a mostrar el formulario.
+    private val _conexionState = MutableLiveData<Resource<Unit>>()
+    val conexionState: LiveData<Resource<Unit>> = _conexionState
+
     // Para saltar el login si ya hay una sesión guardada ("recordar login").
     fun haySesionActiva(): Boolean = sessionManager.haySesionActiva()
+
+    fun verificarConexion() {
+        _conexionState.value = Resource.Loading
+        viewModelScope.launch {
+            _conexionState.value = authRepository.verificarConexion()
+        }
+    }
 
     fun login(usuario: String, password: String) {
         if (usuario.isBlank() || password.isBlank()) {

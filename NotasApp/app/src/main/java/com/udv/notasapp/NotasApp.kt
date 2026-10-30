@@ -1,9 +1,9 @@
 package com.udv.notasapp
 
 import android.app.Application
+import com.udv.notasapp.data.local.BaseUrlStore
 import com.udv.notasapp.data.local.SessionManager
-import com.udv.notasapp.data.remote.ApiService
-import com.udv.notasapp.data.remote.RetrofitClient
+import com.udv.notasapp.data.remote.ApiServiceProvider
 import com.udv.notasapp.data.repository.AuthRepository
 import com.udv.notasapp.data.repository.NotasRepository
 
@@ -16,7 +16,10 @@ class NotasApp : Application() {
 
     lateinit var sessionManager: SessionManager
         private set
-    private lateinit var apiService: ApiService
+    lateinit var baseUrlStore: BaseUrlStore
+        private set
+    lateinit var apiServiceProvider: ApiServiceProvider
+        private set
 
     lateinit var authRepository: AuthRepository
         private set
@@ -26,8 +29,15 @@ class NotasApp : Application() {
     override fun onCreate() {
         super.onCreate()
         sessionManager = SessionManager(this)
-        apiService = RetrofitClient.create(sessionManager)
-        authRepository = AuthRepository(apiService, sessionManager)
-        notasRepository = NotasRepository(apiService, sessionManager)
+        baseUrlStore = BaseUrlStore(this)
+        apiServiceProvider = ApiServiceProvider(sessionManager, baseUrlStore.obtenerBaseUrl())
+        authRepository = AuthRepository(apiServiceProvider, sessionManager)
+        notasRepository = NotasRepository(apiServiceProvider, sessionManager)
+    }
+
+    /** Cambia la URL del backend en caliente (panel de diagnóstico de conexión) y la recuerda. */
+    fun reconfigurarBackend(nuevaBaseUrl: String) {
+        apiServiceProvider.actualizar(nuevaBaseUrl)
+        baseUrlStore.guardarBaseUrl(nuevaBaseUrl)
     }
 }

@@ -128,4 +128,144 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupLoginForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="ivLogo,tvTitle,tvSubtitle,etUsuario,etPassword,tvError,btnLogin,progressLogin,tvCrearCuenta" />
+
+    <!-- Se muestra mientras se verifica la conexión al backend, antes de decidir si
+         se muestra el login o el panel de diagnóstico. -->
+    <ProgressBar
+        android:id="@+id/progressVerificando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Panel de diagnóstico: se muestra en vez del login si no se pudo conectar al backend. -->
+    <ScrollView
+        android:id="@+id/scrollDiagnostico"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="32dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="⚠️ No se pudo conectar al servidor"
+                android:textColor="@color/error"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDiagMensaje"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_panel_mensaje"
+                android:padding="12dp"
+                android:textColor="@color/textPrimary"
+                android:textSize="14sp"
+                tools:text="Conexión rechazada: el servidor no está escuchando en esa IP/puerto." />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="URL configurada actualmente"
+                android:textColor="@color/textSecondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etDiagUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_input"
+                android:inputType="textUri"
+                android:maxLines="1"
+                android:textSize="14sp"
+                tools:text="http://10.0.2.2:3000/" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="IP(s) de este dispositivo"
+                android:textColor="@color/textSecondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDiagIps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/textPrimary"
+                android:textSize="13sp"
+                tools:text="10.0.2.16" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Según la configuración del proyecto, deberías usar"
+                android:textColor="@color/textSecondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="• Emulador de Android Studio: http://10.0.2.2:3000/\n• Dispositivo físico (misma red Wi-Fi): la IP de la PC que imprime NotasApi al arrancar (ej. http://192.168.1.X:3000/)"
+                android:textColor="@color/textPrimary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnDiagGuardarReintentar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_button_primary"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="Guardar URL y reintentar"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btnDiagReintentar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_button_outline"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Reintentar sin cambiar la URL"
+                android:textAllCaps="false"
+                android:textColor="@color/error"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
