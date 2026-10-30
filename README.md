@@ -21,7 +21,7 @@ Cada carpeta tiene su propio `README.md` con instrucciones específicas:
 2. Abrir `NotasApp` en Android Studio y ejecutar en un emulador — ya está configurado para apuntar a
    `http://10.0.2.2:3000/` (la URL con la que el emulador ve al `localhost` de la PC).
 3. Iniciar sesión con el usuario de prueba que crea el backend automáticamente:
-   `demo@udv.edu.gt` / `Demo1234`.
+   `admin@notasapp.com` / `admin` — o crear una cuenta nueva desde la pantalla de Login.
 
 ## Autor
 

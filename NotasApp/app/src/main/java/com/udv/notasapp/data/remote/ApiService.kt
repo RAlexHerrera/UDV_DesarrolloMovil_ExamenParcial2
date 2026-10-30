@@ -4,6 +4,7 @@ import com.udv.notasapp.data.remote.dto.LoginRequest
 import com.udv.notasapp.data.remote.dto.LoginResponse
 import com.udv.notasapp.data.remote.dto.Nota
 import com.udv.notasapp.data.remote.dto.NotaRequest
+import com.udv.notasapp.data.remote.dto.RegisterRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,6 +18,9 @@ interface ApiService {
 
     @POST("api/auth/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+
+    @POST("api/auth/register")
+    suspend fun register(@Body request: RegisterRequest): Response<LoginResponse>
 
     @POST("api/notas")
     suspend fun crearNota(@Body request: NotaRequest): Response<Nota>

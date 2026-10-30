@@ -10,6 +10,15 @@
     <string name="error_campos_vacios">Completa todos los campos</string>
     <string name="error_credenciales">Usuario o contraseña incorrectos</string>
     <string name="error_conexion">No se pudo conectar con el servidor. Intenta de nuevo</string>
+    <string name="link_crear_cuenta">¿No tienes cuenta? Crear una</string>
+
+    <!-- Crear cuenta -->
+    <string name="register_title">Crear cuenta</string>
+    <string name="register_subtitle">Regístrate para empezar a usar NotasApp</string>
+    <string name="hint_nombre">Nombre completo</string>
+    <string name="hint_email">Correo electrónico</string>
+    <string name="btn_crear_cuenta">Crear cuenta</string>
+    <string name="link_ya_tengo_cuenta">¿Ya tienes cuenta? Inicia sesión</string>
 
     <!-- Dashboard -->
     <string name="dashboard_welcome">¡Hola, %1$s!</string>

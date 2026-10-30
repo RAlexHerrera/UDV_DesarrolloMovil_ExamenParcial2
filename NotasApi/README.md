@@ -20,8 +20,8 @@ npm start
 Al arrancar, crea automáticamente la base de datos (`data/notas.db`) y un **usuario de prueba**:
 
 ```
-email:    demo@udv.edu.gt
-password: Demo1234
+email:    admin@notasapp.com
+password: admin
 ```
 
 La consola imprime las URLs a usar como `BASE_URL` en la app Android, tanto para el emulador
@@ -32,7 +32,7 @@ La consola imprime las URLs a usar como `BASE_URL` en la app Android, tanto para
 | Método | Ruta | Auth | Body | Descripción |
 |---|---|---|---|---|
 | POST | `/api/auth/login` | No | `{ email, password }` | Autentica y devuelve `{ token, usuario }` |
-| POST | `/api/auth/register` | No | `{ nombre, email, password }` | Crea un usuario nuevo (utilitario, para pruebas — la app no tiene pantalla de registro) |
+| POST | `/api/auth/register` | No | `{ nombre, email, password }` | Crea un usuario y responde igual que login (`{ token, usuario }`), así la app deja la sesión iniciada de una vez |
 | POST | `/api/notas` | **Sí** | `{ titulo, contenido }` | Crea una nota del usuario autenticado |
 | GET | `/api/notas` | **Sí** | — | Lista las notas del usuario autenticado |
 
@@ -64,7 +64,7 @@ JWT_SECRET=clave-secreta
 # Login
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"demo@udv.edu.gt","password":"Demo1234"}'
+  -d '{"email":"admin@notasapp.com","password":"admin"}'
 
 # Crear nota (reemplazar <TOKEN>)
 curl -X POST http://localhost:3000/api/notas \

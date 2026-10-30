@@ -1,5 +1,5 @@
-// Rutas de autenticación: login (la que usa la app móvil) y register
-// (utilitaria, para crear usuarios de prueba sin editar la base de datos a mano).
+// Rutas de autenticación: login y register. Ambas usadas por la app móvil
+// (la pantalla "Crear cuenta" llama a /register).
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const db = require("../db");
@@ -27,8 +27,8 @@ router.post("/login", (req, res) => {
   });
 });
 
-// POST /api/auth/register — no la usa la app (el enunciado no pide pantalla de registro),
-// solo sirve para crear usuarios de prueba vía curl/Postman.
+// POST /api/auth/register — crea la cuenta y de una vez inicia sesión (devuelve token),
+// para que el usuario no tenga que loguearse por separado justo después de registrarse.
 router.post("/register", (req, res) => {
   const { nombre, email, password } = req.body;
 
@@ -46,7 +46,9 @@ router.post("/register", (req, res) => {
     .prepare("INSERT INTO usuarios (nombre, email, password_hash) VALUES (?, ?, ?)")
     .run(nombre, email, passwordHash);
 
-  res.status(201).json({ id: resultado.lastInsertRowid, nombre, email });
+  const usuario = { id: resultado.lastInsertRowid, nombre, email };
+  const token = generarToken(usuario);
+  res.status(201).json({ token, usuario });
 });
 
 module.exports = router;

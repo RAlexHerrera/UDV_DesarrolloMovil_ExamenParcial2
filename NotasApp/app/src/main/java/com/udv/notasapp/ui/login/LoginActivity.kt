@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.udv.notasapp.NotasApp
 import com.udv.notasapp.databinding.ActivityLoginBinding
 import com.udv.notasapp.ui.dashboard.DashboardActivity
+import com.udv.notasapp.ui.register.RegisterActivity
 import com.udv.notasapp.util.Resource
 import com.udv.notasapp.util.ViewModelFactory
 
@@ -37,6 +38,10 @@ class LoginActivity : AppCompatActivity() {
             val usuario = binding.etUsuario.text.toString()
             val password = binding.etPassword.text.toString()
             viewModel.login(usuario, password)
+        }
+
+        binding.tvCrearCuenta.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
 
         viewModel.loginState.observe(this) { estado ->

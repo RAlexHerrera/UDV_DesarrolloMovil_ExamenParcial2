@@ -38,15 +38,15 @@ db.exec(`
 // registrar uno manualmente. Esto NO es login hardcodeado: es un registro real en la
 // base de datos, con contraseña hasheada igual que cualquier otro usuario.
 function seedUsuarioDemo() {
-  const existe = db.prepare("SELECT id FROM usuarios WHERE email = ?").get("demo@udv.edu.gt");
+  const existe = db.prepare("SELECT id FROM usuarios WHERE email = ?").get("admin@notasapp.com");
   if (existe) return;
 
-  const passwordHash = bcrypt.hashSync("Demo1234", 10);
+  const passwordHash = bcrypt.hashSync("admin", 10);
   db.prepare(
     "INSERT INTO usuarios (nombre, email, password_hash) VALUES (?, ?, ?)"
-  ).run("Usuario Demo", "demo@udv.edu.gt", passwordHash);
+  ).run("Admin", "admin@notasapp.com", passwordHash);
 
-  console.log('Usuario de prueba creado -> email: "demo@udv.edu.gt", password: "Demo1234"');
+  console.log('Usuario de prueba creado -> email: "admin@notasapp.com", password: "admin"');
 }
 
 seedUsuarioDemo();

@@ -20,6 +20,7 @@ listado de sus notas guardadas.
 | Pantalla | Layout raíz | Descripción |
 |---|---|---|
 | Login | ConstraintLayout | Autenticación contra el backend. Si ya hay una sesión guardada, la salta automáticamente. |
+| Crear cuenta | ConstraintLayout | Registro de un usuario nuevo; al completarse, deja la sesión iniciada automáticamente. |
 | Dashboard | LinearLayout | Bienvenida con el nombre del usuario + accesos a Crear nota / Ver notas + Cerrar sesión. |
 | Crear nota | ConstraintLayout | Formulario de título y contenido, con validaciones e indicador de carga. |
 | Listado de notas | LinearLayout | `RecyclerView` con `CardView` (ConstraintLayout interno), obtenido del backend. |
@@ -56,7 +57,8 @@ GET  api/notas                                       → [ { id, titulo, conteni
 3. Ejecutar en el emulador (▶ Run) — `RetrofitClient.kt` ya apunta a `http://10.0.2.2:3000/`, que es como
    el emulador ve al `localhost` de la PC. Para un dispositivo físico, cambiar esa URL por la IP de la PC
    en la red Wi-Fi (NotasApi la imprime al arrancar).
-4. Iniciar sesión con el usuario de prueba que el backend crea automáticamente: `demo@udv.edu.gt` / `Demo1234`.
+4. Iniciar sesión con el usuario de prueba que el backend crea automáticamente: `admin@notasapp.com` / `admin`
+   — o crear una cuenta nueva desde el enlace "¿No tienes cuenta?" en la pantalla de Login.
 
 ## Estructura del proyecto
 
@@ -70,6 +72,7 @@ app/src/main/java/com/udv/notasapp/
 │   └── repository/               AuthRepository, NotasRepository
 ├── ui/
 │   ├── login/
+│   ├── register/
 │   ├── dashboard/
 │   ├── createnote/
 │   └── noteslist/                Activity + ViewModel por pantalla
